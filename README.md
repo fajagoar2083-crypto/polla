@@ -10,13 +10,11 @@ App web para una polla mundialista con registro, pronósticos, ranking, premios 
 - La segunda fase queda bloqueada antes del primer partido de esa fase.
 - Cada acierto suma 3 puntos.
 
-## Uso local
-
-```bash
-npm install
-npm run dev
-```
-
 ## Publicar en Vercel
 
-Sube estos archivos a GitHub y conecta el repositorio con Vercel.
+Configuración recomendada:
+
+- Framework Preset: Vite
+- Build Command: npm run build
+- Output Directory: dist
+- Install Command: npm install
