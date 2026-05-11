@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polla Mundialista</title>
+  <style>
+    :root {
+      --bg: #020617;
+      --card: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.16);
+      --yellow: #facc15;
+      --green: #22c55e;
+      --red: #ef4444;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.72);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(250,204,21,.35), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(34,197,94,.25), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(37,99,235,.28), transparent 28%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(1180px, 100%);
+      margin: auto;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 18px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 80px rgba(0,0,0,.25);
+      margin-bottom: 22px;
+    }
+    .brand small {
+      color: var(--yellow);
+      font-weight: 900;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+    }
+    .brand h1 {
+      margin: 4px 0 0;
+      font-size: clamp(30px, 5vw, 56px);
+      line-height: .95;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    button, input, select {
+      font: inherit;
+    }
+    .nav-btn, .btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 11px 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .nav-btn {
+      background: rgba(255,255,255,.10);
+      color: white;
+    }
+    .nav-btn.active, .btn.primary {
+      background: var(--yellow);
+      color: #020617;
+    }
+    .btn.secondary {
+      background: rgba(255,255,255,.12);
+      color: white;
+      border: 1px solid var(--border);
+    }
+    .btn.danger {
+      background: var(--red);
+      color: white;
+    }
+    .btn.success {
+      background: var(--green);
+      color: #020617;
+    }
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+    .grid.two {
+      grid-template-columns: 1.15fr .85fr;
+    }
+    .grid.cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 80px rgba(0,0,0,.20);
+    }
+    .hero {
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(6,78,59,.78), rgba(2,6,23,.92), rgba(30,58,138,.72));
+      position: relative;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(255,255,255,.10);
+      color: #fef08a;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+    .cup-wrap {
+      width: 260px;
+      height: 260px;
+      margin: auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(250,204,21,.45);
+      background: linear-gradient(#fde047, #eab308, #92400e);
+      box-shadow: 0 0 90px rgba(250,204,21,.45);
+      animation: float 3s ease-in-out infinite;
+    }
+    .cup {
+      font-size: 132px;
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.45));
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    h2 {
+      font-size: clamp(30px, 5vw, 58px);
+      line-height: 1;
+      margin: 24px 0 12px;
+    }
+    h3 {
+      margin: 0 0 12px;
+      font-size: 24px;
+    }
+    p {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .stat-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      background: var(--yellow);
+      color: #020617;
+      border-radius: 18px;
+      font-size: 28px;
+    }
+    .stat-value {
+      font-size: 27px;
+      font-weight: 1000;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.75);
+      color: white;
+      border-radius: 18px;
+      padding: 15px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    .phase-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .match {
+      background: rgba(2,6,23,.48);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 20px;
+    }
+    .match-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .round {
+      background: rgba(255,255,255,.10);
+      color: white;
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    .locked {
+      background: rgba(239,68,68,.20);
+      color: #fecaca;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 900;
+    }
+    .match h4 {
+      font-size: 25px;
+      margin: 0 0 15px;
+    }
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+    .option {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.72);
+      color: white;
+      border-radius: 16px;
+      padding: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .option.selected {
+      background: var(--yellow);
+      color: #020617;
+      border-color: var(--yellow);
+    }
+    .option:disabled {
+      opacity: .48;
+      cursor: not-allowed;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+    }
+    table {
+      width: 100%;
+      min-width: 650px;
+      border-collapse: collapse;
+    }
+    th {
+      background: var(--yellow);
+      color: #020617;
+      text-align: left;
+      padding: 14px;
+    }
+    td {
+      padding: 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(2,6,23,.42);
+    }
+    .admin-controls {
+      display: grid;
+      gap: 10px;
+    }
+    .notice {
+      border: 1px solid rgba(250,204,21,.28);
+      background: rgba(250,204,21,.10);
+    }
+    .confirm-box {
+      border: 1px solid rgba(34,197,94,.35);
+      background: rgba(34,197,94,.10);
+    }
+    .confirm-box.locked {
+      border-color: rgba(239,68,68,.35);
+      background: rgba(239,68,68,.10);
+    }
+    .progress {
+      height: 12px;
+      width: 100%;
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 0;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: #facc15;
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+    .prize-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: space-between;
+    }
+    .prize-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .prize-icon {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      background: var(--yellow);
+      color: #020617;
+      border-radius: 18px;
+      font-size: 30px;
+    }
+    .prize-value {
+      font-size: 24px;
+      font-weight: 1000;
+      color: var(--yellow);
+      text-align: right;
+    }
+    @media (max-width: 850px) {
+      header, .grid.two {
+        grid-template-columns: 1fr;
+      }
+      header {
+        align-items: flex-start;
+      }
+      .grid.cards {
+        grid-template-columns: 1fr;
+      }
+      nav {
+        width: 100%;
+      }
+      .nav-btn {
+        flex: 1 1 auto;
+      }
+      .cup-wrap {
+        width: 210px;
+        height: 210px;
+      }
+      .cup {
+        font-size: 104px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <small>Polla Mundialista</small>
+        <h1>Camino a la Copa</h1>
+      </div>
+      <nav id="nav"></nav>
+    </header>
+
+    <section id="inicio" class="section active">
+      <div class="grid two">
+        <div class="card hero">
+          <div>
+            <div class="badge">🌎 Mundial 2026 · Predice, suma y gana</div>
+            <div class="cup-wrap">
+              <div class="cup">🏆</div>
+            </div>
+            <h2>La Copa está en juego</h2>
+            <p>
+              Primera fase: aparecen los 72 partidos reales de grupos y no hay participantes precargados.
+              Segunda fase: se habilita cuando ya estén los clasificados.
+            </p>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:22px;">
+              <button class="btn primary" onclick="go('registro')">Registrarme</button>
+              <button class="btn secondary" onclick="go('pronosticos')">Hacer pronósticos</button>
+            </div>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="card stat">
+            <div class="stat-icon">👥</div>
+            <div><p>Participantes pagos</p><div id="paidCount" class="stat-value">0</div></div>
+          </div>
+          <div class="card stat">
+            <div class="stat-icon">💰</div>
+            <div><p>Bolsa acumulada</p><div id="totalPot" class="stat-value">$0</div></div>
+          </div>
+          <div class="card stat">
+            <div class="stat-icon">✨</div>
+            <div><p>Valor inscripción</p><div class="stat-value">$100.000</div></div>
+          </div>
+          <div class="card">
+            <h3>Reglas de bloqueo</h3>
+            <p>✅ Acertar ganador o empate suma <b style="color:#facc15;">3 puntos</b>.</p>
+            <p>🔒 Primera fase: se bloquea completa antes de iniciar el Mundial.</p>
+            <p>🔓 Segunda fase: se habilita cuando estén los clasificados.</p>
+            <p>🔒 Segunda fase: se bloquea antes del primer partido de esa fase.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="registro" class="section">
+      <div class="card" style="max-width:720px; margin:auto;">
+        <h3>Registro de participante</h3>
+        <p>Ingresa nombre y apellido. El administrador podrá marcar el pago de $100.000 COP.</p>
+        <form onsubmit="registerUser(event)">
+          <input id="firstName" placeholder="Nombre" required />
+          <input id="lastName" placeholder="Apellido" required />
+          <button class="btn primary" style="width:100%;">Crear mi participación</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="pronosticos" class="section">
+      <div class="card">
+        <h3>Tus pronósticos</h3>
+        <p>Participante actual:</p>
+        <select id="currentUser" onchange="setCurrentUser(this.value)"></select>
+      </div>
+
+      <div class="card notice" style="margin-top:16px;">
+        <h3>⚠️ Regla importante</h3>
+        <p>
+          En la primera fase debes dejar todos tus pronósticos antes de que inicie el Mundial.
+          Durante la fase inicial no se podrá modificar nada. La segunda fase se abrirá después,
+          cuando ya estén definidos los clasificados.
+        </p>
+      </div>
+
+      <div class="phase-tabs">
+        <button id="phase1Btn" class="btn primary" onclick="setSelectedPhase('fase1')">Primera fase</button>
+        <button id="phase2Btn" class="btn secondary" onclick="setSelectedPhase('fase2')">Segunda fase</button>
+      </div>
+
+      <div id="confirmBox" class="card confirm-box" style="margin-bottom:16px;"></div>
+      <div id="matchesGrid" class="grid cards"></div>
+    </section>
+
+    <section id="ranking" class="section">
+      <div class="card">
+        <h3>Tabla general</h3>
+        <p>Una sola clasificación para todos los participantes.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Puesto</th><th>Participante</th><th>Pago</th><th>Aciertos</th><th>Puntos</th></tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="premios" class="section">
+      <div class="grid two">
+        <div class="card">
+          <h3>Bolsa acumulada</h3>
+          <div id="bigPot" style="font-size:46px; font-weight:1000; color:#facc15;">$0</div>
+          <p id="potDetail"></p>
+        </div>
+        <div class="grid" id="prizesGrid"></div>
+      </div>
+    </section>
+
+    <section id="admin" class="section">
+      <div id="adminLogin" class="card" style="max-width:620px; margin:auto;">
+        <h3>🔐 Acceso de administrador</h3>
+        <p>Ingresa la clave para modificar pagos, fases, clasificados y resultados.</p>
+        <form onsubmit="adminLogin(event)">
+          <input id="adminPassword" type="password" placeholder="Clave de administrador" required />
+          <button class="btn primary" style="width:100%;">Entrar como admin</button>
+        </form>
+        <p id="adminError" style="color:#fecaca; font-weight:900;"></p>
+      </div>
+
+      <div id="adminPanel" style="display:none;">
+        <div class="card" style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h3 style="margin:0;">🛡️ Panel administrador</h3>
+            <p style="margin:6px 0 0;">Solo visible después de ingresar la clave.</p>
+          </div>
+          <button class="btn secondary" onclick="adminLogout()">Cerrar sesión admin</button>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <h3>Panel admin</h3>
+            <p>Controla pagos, fases, clasificados y resultados.</p>
+            <div class="card" style="background:rgba(2,6,23,.42);">
+              <h3>Control de fases</h3>
+              <div class="admin-controls">
+                <button class="btn danger" onclick="if(adminSession){state.phaseConfig.fase1Locked = true; save(); render();}">Bloquear primera fase antes del Mundial</button>
+                <button class="btn success" onclick="if(adminSession){state.phaseConfig.fase2Enabled = true; save(); render();}">Habilitar segunda fase cuando estén los clasificados</button>
+                <button class="btn danger" onclick="if(adminSession){state.phaseConfig.fase2Locked = true; save(); render();}">Bloquear segunda fase antes del primer partido</button>
+                <button class="btn secondary" onclick="resetLocks()">Reiniciar bloqueos de prueba</button>
+              </div>
+            </div>
+            <h3 style="margin-top:18px;">Participantes</h3>
+            <div id="adminUsers" class="grid"></div>
+          </div>
+
+          <div class="card">
+            <h3>Resultados y clasificados</h3>
+            <select id="adminMatch" onchange="renderAdminMatch()"></select>
+            <div id="adminMatchBox"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  </script>
+</body>
+</html>
