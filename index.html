@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Polla Mundialista</title>
+<style>
+:root{--bg:#020617;--card:rgba(255,255,255,.1);--border:rgba(255,255,255,.18);--yellow:#facc15;--green:#22c55e;--red:#ef4444;--blue:#38bdf8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#3b3209,transparent 25%),radial-gradient(circle at bottom left,#064e3b,transparent 32%),radial-gradient(circle at bottom right,#172554,transparent 32%),var(--bg);color:#fff;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.container{position:relative;z-index:2;width:min(1180px,100%);margin:auto;padding:18px}
+header{display:flex;justify-content:space-between;gap:14px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:24px;padding:16px;margin-bottom:18px;backdrop-filter:blur(12px)}
+.brand small{color:var(--yellow);font-weight:900;letter-spacing:.24em;text-transform:uppercase}.brand h1{margin:3px 0 0;font-size:clamp(30px,5vw,52px)}
+nav{display:flex;flex-wrap:wrap;gap:8px}button,input,select{font:inherit}.nav-btn,.btn{border:0;border-radius:14px;padding:10px 13px;font-weight:900;cursor:pointer}.nav-btn{background:rgba(255,255,255,.12);color:#fff}.nav-btn.active,.btn.primary{background:var(--yellow);color:#020617}.btn.secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid var(--border)}.btn.danger{background:var(--red);color:#fff}.btn.success{background:var(--green);color:#020617}.btn.info{background:var(--blue);color:#020617}button:disabled{opacity:.5;cursor:not-allowed}
+.section{display:none}.section.active{display:block}.grid{display:grid;gap:16px}.two{grid-template-columns:1.15fr .85fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:22px;backdrop-filter:blur(12px);box-shadow:0 18px 70px rgba(0,0,0,.25)}.hero{min-height:520px;display:grid;place-items:center;text-align:center;background:linear-gradient(135deg,rgba(6,78,59,.85),rgba(2,6,23,.92),rgba(30,64,175,.65))}
+.badge{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:rgba(255,255,255,.12);color:#fef08a;font-weight:900;margin-bottom:18px}
+.cup-wrap{width:260px;height:260px;margin:auto;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(250,204,21,.45);background:linear-gradient(#fde047,#eab308,#92400e);box-shadow:0 0 90px rgba(250,204,21,.45);animation:float 3s ease-in-out infinite;padding:0;overflow:hidden}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}.cup-wrap img{width:100%;height:100%;object-fit:cover}
+h2{font-size:clamp(34px,5vw,58px);line-height:1;margin:22px 0 12px}h3{margin:0 0 12px;font-size:24px}p{color:rgba(255,255,255,.78);line-height:1.55}input,select{width:100%;border:1px solid var(--border);background:rgba(2,6,23,.75);color:#fff;border-radius:16px;padding:14px;margin-bottom:11px}
+.stat{display:flex;align-items:center;gap:14px}.stat-icon{width:56px;height:56px;display:grid;place-items:center;background:var(--yellow);color:#020617;border-radius:16px;font-size:28px}.stat-value{font-size:26px;font-weight:1000}
+.phase-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.match{background:rgba(2,6,23,.48);border:1px solid var(--border);border-radius:22px;padding:18px}.match-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:rgba(255,255,255,.68);font-size:14px;margin-bottom:12px}.round,.locked{border-radius:999px;padding:6px 10px;font-weight:900}.round{background:rgba(255,255,255,.12)}.locked{background:rgba(239,68,68,.22);color:#fecaca}.match h4{font-size:24px;margin:0 0 14px}.options{display:grid;gap:10px}.option{width:100%;text-align:left;border:1px solid var(--border);background:rgba(2,6,23,.72);color:#fff;border-radius:14px;padding:12px;font-weight:900;cursor:pointer}.option.selected{background:var(--yellow);color:#020617;border-color:var(--yellow)}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:18px}table{width:100%;min-width:650px;border-collapse:collapse}th{background:var(--yellow);color:#020617;text-align:left;padding:13px}td{padding:13px;border-top:1px solid var(--border);background:rgba(2,6,23,.42)}.notice{border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.1)}.confirm-box{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.1)}.confirm-box.locked{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.1)}.progress{height:12px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:var(--yellow)}
+.small{font-size:13px;color:rgba(255,255,255,.62)}.error{color:#fecaca;font-weight:900}.success-text{color:#bbf7d0;font-weight:900}
+@media(max-width:850px){header,.two{grid-template-columns:1fr;display:grid}nav{width:100%}.nav-btn{flex:1}.cards{grid-template-columns:1fr}.cup-wrap{width:210px;height:210px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header><div class="brand"><small>Polla Mundialista</small><h1>Camino a la Copa</h1></div><nav id="nav"></nav></header>
+
+<section id="inicio" class="section active">
+  <div class="grid two">
+    <div class="card hero">
+      <div>
+        <div class="badge">🌎 Mundial 2026 · Predice, suma y gana</div>
+        <div class="cup-wrap"><img src="copa-mundial.svg" alt="Copa del Mundo"></div>
+        <h2>La Copa está en juego</h2>
+        <p>Primera fase: pronostica todos los partidos de grupos. Segunda fase: se habilita cuando estén los clasificados.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+          <button class="btn primary" onclick="go('login')">Iniciar sesión</button>
+          <button class="btn secondary" onclick="go('registro')">Registrarme</button>
+        </div>
+        <p id="connectionStatus" class="small"></p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card stat"><div class="stat-icon">👥</div><div><p>Participantes pagos</p><div id="paidCount" class="stat-value">0</div></div></div>
+      <div class="card stat"><div class="stat-icon">💰</div><div><p>Bolsa acumulada</p><div id="totalPot" class="stat-value">$0</div></div></div>
+      <div class="card stat"><div class="stat-icon">✨</div><div><p>Valor inscripción</p><div class="stat-value">$100.000</div></div></div>
+      <div class="card">
+        <h3>Reglas de puntos</h3>
+        <p>✅ Grupos: <b style="color:#facc15">3</b> puntos.</p>
+        <p>✅ Ronda de 32: <b style="color:#facc15">6</b>, Octavos: <b style="color:#facc15">7</b>, Cuartos: <b style="color:#facc15">8</b>, Semifinales: <b style="color:#facc15">9</b>, Final: <b style="color:#facc15">10</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="login" class="section">
+  <div class="card" style="max-width:720px;margin:auto">
+    <h3>🔐 Inicio de sesión</h3>
+    <p>Selecciona tu nombre e ingresa tu PIN de 4 dígitos.</p>
+    <form onsubmit="loginUser(event)">
+      <select id="loginUserSelect"></select>
+      <input id="loginPin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="PIN de 4 dígitos" required>
+      <button class="btn primary" style="width:100%">Entrar a mis pronósticos</button>
+    </form>
+    <p id="loginMessage" class="error"></p>
+    <div id="loggedBox" style="margin-top:14px;"></div>
+  </div>
+</section>
+
+<section id="registro" class="section">
+  <div class="card" style="max-width:720px;margin:auto">
+    <h3>Registro de participante</h3>
+    <p>Ingresa nombre, apellido y crea tu PIN de 4 números.</p>
+    <form onsubmit="registerUser(event)">
+      <input id="firstName" placeholder="Nombre" required>
+      <input id="lastName" placeholder="Apellido" required>
+      <input id="userPin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="Crea tu PIN de 4 dígitos" required>
+      <button class="btn primary" style="width:100%">Crear mi participación</button>
+    </form>
+    <p id="registerMessage" class="error"></p>
+  </div>
+</section>
+
+<section id="pronosticos" class="section">
+  <div class="card"><h3>Tus pronósticos</h3><div id="sessionBox"></div></div>
+  <div class="card notice" style="margin-top:16px">
+    <h3>⚠️ Regla importante</h3>
+    <p>Debes completar todos los partidos de la fase. Cuando confirmes, no podrás modificarlos. El admin también puede bloquear toda una fase.</p>
+  </div>
+  <div class="phase-tabs">
+    <button id="phase1Btn" class="btn primary" onclick="setSelectedPhase('fase1')">Primera fase</button>
+    <button id="phase2Btn" class="btn secondary" onclick="setSelectedPhase('fase2')">Segunda fase</button>
+  </div>
+  <div id="confirmBox" class="card confirm-box" style="margin-bottom:16px"></div>
+  <div id="matchesGrid" class="grid cards"></div>
+</section>
+
+<section id="ranking" class="section">
+  <div class="card"><h3>Tabla general</h3><p>Ranking compartido para todos los participantes.</p><div class="table-wrap"><table><thead><tr><th>Puesto</th><th>Participante</th><th>Pago</th><th>Aciertos</th><th>Puntos</th></tr></thead><tbody id="rankingBody"></tbody></table></div></div>
+</section>
+
+<section id="premios" class="section">
+  <div class="grid two"><div class="card"><h3>Bolsa acumulada</h3><div id="bigPot" style="font-size:46px;font-weight:1000;color:#facc15">$0</div><p id="potDetail"></p></div><div class="grid" id="prizesGrid"></div></div>
+</section>
+
+<section id="admin" class="section">
+  <div id="adminLogin" class="card" style="max-width:620px;margin:auto">
+    <h3>🔐 Acceso de administrador</h3>
+    <p>Ingresa la clave admin.</p>
+    <form onsubmit="adminLogin(event)">
+      <input id="adminPassword" type="password" placeholder="Clave de administrador" required>
+      <button class="btn primary" style="width:100%">Entrar como admin</button>
+    </form>
+    <p id="adminError" class="error"></p>
+  </div>
+  <div id="adminPanel" style="display:none">
+    <div class="card" style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div><h3 style="margin:0">🛡️ Panel administrador</h3><p style="margin:6px 0 0">Controla pagos, fases y resultados.</p></div>
+      <button class="btn secondary" onclick="adminLogout()">Cerrar sesión admin</button>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Control de fases</h3>
+        <div class="grid">
+          <button class="btn danger" onclick="lockPhase('fase1')">Bloquear primera fase</button>
+          <button class="btn success" onclick="enablePhase2()">Habilitar segunda fase</button>
+          <button class="btn danger" onclick="lockPhase('fase2')">Bloquear segunda fase</button>
+          <button class="btn secondary" onclick="resetLocks()">Reiniciar bloqueos de prueba</button>
+        </div>
+        <h3 style="margin-top:18px">Participantes</h3>
+        <div id="adminUsers" class="grid"></div>
+      </div>
+      <div class="card">
+        <h3>Resultados y clasificados</h3>
+        <select id="adminMatch" onchange="renderAdminMatch()"></select>
+        <div id="adminMatchBox"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+const SUPABASE_REST_URL = "https://kenkufeidbmhclrawpnk.supabase.co/rest/v1";
+const SUPABASE_KEY = "sb_publishable_kJlCK89w0XRmBfz6gVt7iQ_vCH_Czpp";
+
+function apiHeaders(extra = {}) {
+  return {
+    "apikey": SUPABASE_KEY,
+    "Authorization": "Bearer " + SUPABASE_KEY,
+    "Content-Type": "application/json",
+    "Prefer": "return=representation",
+    ...extra
+  };
+}
+
+async function apiGet(path) {
+  const response = await fetch(SUPABASE_REST_URL + path, {
+    method: "GET",
+    headers: apiHeaders({"Prefer": ""})
+  });
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+}
+
+async function apiPost(path, data) {
+  const response = await fetch(SUPABASE_REST_URL + path, {
+    method: "POST",
+    headers: apiHeaders(),
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+}
+
+async function apiPatch(path, data) {
+  const response = await fetch(SUPABASE_REST_URL + path, {
+    method: "PATCH",
+    headers: apiHeaders(),
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+}
+
+async function apiDelete(path) {
+  const response = await fetch(SUPABASE_REST_URL + path, {
+    method: "DELETE",
+    headers: apiHeaders({"Prefer": ""})
+  });
+  if (!response.ok) throw new Error(await response.text());
+  return true;
+}
+const inscriptionValueDefault = 100000;
+const COP = new Intl.NumberFormat("es-CO", {style:"currency",currency:"COP",maximumFractionDigits:0});
+let state = {
+  activeTab: "inicio",
+  selectedPhase: "fase1",
+  loggedUser: null,
+  adminSession: false,
+  users: [],
+  matches: [],
+  predictions: [],
+  config: {fase1_bloqueada:false,fase2_habilitada:false,fase2_bloqueada:false,valor_inscripcion:100000,clave_admin:"Fabio2026"}
+};
+
+function go(tab){ state.activeTab = tab; render(); }
+function setSelectedPhase(phase){ if(phase==="fase2" && !state.config.fase2_habilitada) return; state.selectedPhase = phase; render(); }
+function phaseLocked(phase){ return phase==="fase1" ? state.config.fase1_bloqueada : (!state.config.fase2_habilitada || state.config.fase2_bloqueada); }
+function optionLabel(m,o){ if(o==="home")return "Gana "+m.equipo_local; if(o==="away")return "Gana "+m.equipo_visitante; if(o==="draw")return "Empate"; return "Sin pronóstico"; }
+function phaseMatches(phase){ return state.matches.filter(m => m.fase === phase && (m.fase==="fase1" || state.config.fase2_habilitada)); }
+function userPredictions(userId){ return state.predictions.filter(p => p.participante_id === userId); }
+function predFor(userId, matchId){ return state.predictions.find(p => p.participante_id === userId && p.partido_id === matchId); }
+function phaseProgress(userId, phase){ const ms=phaseMatches(phase); const preds=userPredictions(userId); const completed=ms.filter(m => preds.some(p => p.partido_id===m.id)).length; return {total:ms.length, completed}; }
+function phaseConfirmed(userId, phase){ const pr=phaseProgress(userId, phase); if(!userId || pr.total===0 || pr.completed<pr.total) return false; const ids=phaseMatches(phase).map(m=>m.id); return ids.every(id => { const p=predFor(userId,id); return p && p.confirmado; }); }
+function showError(context, err){ console.error(context, err); alert(context + ": " + (err?.message || err)); }
+
+async function loadAll(){
+  try {
+    const [cfg, users, matches, preds] = await Promise.all([
+      apiGet("/configuracion?id=eq.1&select=*"),
+      apiGet("/participantes?select=*&order=creado_en.asc"),
+      apiGet("/partidos?select=*&order=id.asc"),
+      apiGet("/pronosticos?select=*")
+    ]);
+
+    state.config = cfg[0] || state.config;
+    state.users = users || [];
+    state.matches = matches || [];
+    state.predictions = preds || [];
+    document.getElementById("connectionStatus").textContent = "✅ Conectado a Supabase";
+    render();
+  } catch(err) {
+    document.getElementById("connectionStatus").textContent = "❌ Error de conexión a Supabase";
+    showError("Error cargando datos", err);
+    render();
+  }
+}
+
+async function registerUser(e){
+  e.preventDefault();
+  const nombre = document.getElementById("firstName").value.trim();
+  const apellido = document.getElementById("lastName").value.trim();
+  const pin = document.getElementById("userPin").value.trim();
+  const msg = document.getElementById("registerMessage");
+  msg.textContent = "";
+  if(!/^[0-9]{4}$/.test(pin)){ msg.textContent="El PIN debe tener exactamente 4 números."; return; }
+
+  try {
+    const data = await apiPost("/participantes", {nombre, apellido, pin});
+    state.loggedUser = data[0];
+    state.activeTab = "pronosticos";
+    await loadAll();
+  } catch(err) {
+    msg.textContent = err.message;
+  }
+}
+
+async function loginUser(e){
+  e.preventDefault();
+  const userId = document.getElementById("loginUserSelect").value;
+  const pin = document.getElementById("loginPin").value.trim();
+  const msg = document.getElementById("loginMessage");
+  msg.textContent = "";
+  const u = state.users.find(x => String(x.id) === String(userId));
+  if(!u){ msg.textContent="Participante no encontrado."; return; }
+  if(u.pin !== pin){ msg.textContent="PIN incorrecto."; return; }
+  state.loggedUser = u;
+  state.activeTab = "pronosticos";
+  render();
+}
+function logoutUser(){ state.loggedUser = null; state.activeTab = "login"; render(); }
+
+async function savePrediction(matchId, pronostico){
+  if(!state.loggedUser){ alert("Primero inicia sesión con tu PIN."); go("login"); return; }
+  const m = state.matches.find(x => x.id === matchId);
+  if(!m || phaseLocked(m.fase)) return;
+  if(phaseConfirmed(state.loggedUser.id, m.fase)){ alert("Ya confirmaste esta fase. No puedes modificarla."); return; }
+
+  const existing = predFor(state.loggedUser.id, matchId);
+  if(existing && existing.confirmado){ alert("Este pronóstico ya está confirmado."); return; }
+
+  const payload = {participante_id:state.loggedUser.id, partido_id:matchId, pronostico, fase:m.fase, confirmado:false, actualizado_en:new Date().toISOString()};
+  await apiPost("/pronosticos?on_conflict=participante_id,partido_id", payload);
+  await loadAll();
+}
+
+async function confirmPredictionsForPhase(){
+  if(!state.loggedUser){ alert("Primero inicia sesión con tu PIN."); go("login"); return; }
+  const phase = state.selectedPhase;
+  if(phaseLocked(phase)){ alert("Esta fase ya está bloqueada."); return; }
+  const pr = phaseProgress(state.loggedUser.id, phase);
+  if(pr.completed < pr.total){ alert("Te faltan partidos por pronosticar. Debes completar todos."); return; }
+  if(!confirm("¿Confirmas tus pronósticos?\\n\\nDespués de dar OK, NO podrás cambiar ningún pronóstico de esta fase.")) return;
+
+  const ids = phaseMatches(phase).map(m=>m.id);
+  await apiPatch(`/pronosticos?participante_id=eq.${state.loggedUser.id}&partido_id=in.(${ids.join(",")})`, {confirmado:true, actualizado_en:new Date().toISOString()});
+  await loadAll();
+}
+
+async function adminLogin(e){
+  e.preventDefault();
+  const pass = document.getElementById("adminPassword").value;
+  if(pass !== state.config.clave_admin){ document.getElementById("adminError").textContent="Clave incorrecta."; return; }
+  state.adminSession = true;
+  render();
+}
+function adminLogout(){ state.adminSession = false; render(); }
+
+async function updateConfig(fields){
+  if(!state.adminSession) return;
+  await apiPatch("/configuracion?id=eq.1", fields);
+  await loadAll();
+}
+function lockPhase(phase){ if(phase==="fase1") updateConfig({fase1_bloqueada:true}); if(phase==="fase2") updateConfig({fase2_bloqueada:true}); }
+function enablePhase2(){ state.selectedPhase="fase2"; updateConfig({fase2_habilitada:true}); }
+function resetLocks(){ updateConfig({fase1_bloqueada:false,fase2_habilitada:false,fase2_bloqueada:false}); }
+
+async function togglePaid(id, current){
+  if(!state.adminSession) return;
+  await apiPatch(`/participantes?id=eq.${id}`, {pagado:!current});
+  await loadAll();
+}
+async function deleteUser(id){
+  if(!state.adminSession) return;
+  const u = state.users.find(x=>x.id===id);
+  if(!u) return;
+  if(!confirm("¿Eliminar a "+u.nombre+" "+u.apellido+"?\\n\\nTambién se borrarán sus pronósticos.")) return;
+  await apiDelete(`/participantes?id=eq.${id}`);
+  if(state.loggedUser?.id === id) state.loggedUser = null;
+  await loadAll();
+}
+async function resetUserPin(id){
+  if(!state.adminSession) return;
+  const u = state.users.find(x=>x.id===id);
+  const pin = prompt("Nuevo PIN de 4 dígitos para "+u.nombre+" "+u.apellido+":");
+  if(pin===null) return;
+  if(!/^[0-9]{4}$/.test(pin)){ alert("El PIN debe tener exactamente 4 números."); return; }
+  await apiPatch(`/participantes?id=eq.${id}`, {pin});
+  await loadAll();
+}
+async function updateResult(id, resultado){
+  if(!state.adminSession) return;
+  await apiPatch(`/partidos?id=eq.${id}`, {resultado});
+  await loadAll();
+}
+async function updateTeam(id, field, value){
+  if(!state.adminSession) return;
+  const payload = {};
+  payload[field] = value;
+  await apiPatch(`/partidos?id=eq.${id}`, payload);
+  await loadAll();
+}
+
+function ranking(){
+  return state.users.map(u => {
+    let points=0, hits=0;
+    state.matches.forEach(m => {
+      const p = predFor(u.id, m.id);
+      if(m.result && p && p.pronostico === m.result){
+        points += m.puntos || 3;
+        hits++;
+      }
+    });
+    return {...u, points, hits};
+  }).sort((a,b)=>b.points-a.points||b.hits-a.hits||a.nombre.localeCompare(b.nombre));
+}
+
+function renderNav(){
+  const tabs=[["inicio","🏆 Inicio"],["login","🔐 Iniciar sesión"],["registro","➕ Registro"],["pronosticos","⚽ Pronósticos"],["ranking","🥇 Ranking"],["premios","💰 Premios"],["admin","🛡️ Admin"]];
+  document.getElementById("nav").innerHTML=tabs.map(t=>`<button class="nav-btn ${state.activeTab===t[0]?"active":""}" onclick="go('${t[0]}')">${t[1]}</button>`).join("");
+}
+function renderSections(){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(state.activeTab).classList.add("active");
+}
+function renderStats(){
+  const paid=state.users.filter(u=>u.pagado).length;
+  const pot=paid*(state.config.valor_inscripcion || inscriptionValueDefault);
+  document.getElementById("paidCount").textContent=paid;
+  document.getElementById("totalPot").textContent=COP.format(pot);
+  document.getElementById("bigPot").textContent=COP.format(pot);
+  document.getElementById("potDetail").textContent=`${paid} participantes pagos × ${COP.format(state.config.valor_inscripcion || inscriptionValueDefault)}`;
+  document.getElementById("prizesGrid").innerHTML=[
+    ["👑","Primer lugar",60,.6],["🥈","Segundo lugar",25,.25],["🥉","Tercer lugar",15,.15]
+  ].map(p=>`<div class="card stat"><div class="stat-icon">${p[0]}</div><div><h3>${p[1]}</h3><p>${p[2]}% de la bolsa</p><div class="stat-value" style="color:#facc15">${COP.format(pot*p[3])}</div></div></div>`).join("");
+}
+function renderLogin(){
+  const sel = document.getElementById("loginUserSelect");
+  if(sel){
+    sel.innerHTML = state.users.length ? state.users.map(u=>`<option value="${u.id}">${u.nombre} ${u.apellido}</option>`).join("") : '<option value="">Aún no hay participantes</option>';
+  }
+  const loggedBox=document.getElementById("loggedBox");
+  if(loggedBox){
+    loggedBox.innerHTML = state.loggedUser ? `<div class="notice card" style="padding:14px;"><b>Sesión activa:</b> ${state.loggedUser.nombre} ${state.loggedUser.apellido}<br><button class="btn secondary" style="margin-top:10px;" onclick="logoutUser()">Cerrar sesión</button></div>` : "<p>No hay sesión activa.</p>";
+  }
+}
+function renderSession(){
+  const box=document.getElementById("sessionBox");
+  if(!box) return;
+  box.innerHTML = state.loggedUser ? `<p>Sesión activa: <b style="color:white">${state.loggedUser.nombre} ${state.loggedUser.apellido}</b></p><button class="btn secondary" onclick="logoutUser()">Cerrar sesión</button>` : `<p>Debes iniciar sesión para hacer tus pronósticos.</p><button class="btn primary" onclick="go('login')">Iniciar sesión</button>`;
+}
+function renderMatches(){
+  document.getElementById("phase1Btn").className="btn "+(state.selectedPhase==="fase1"?"primary":"secondary");
+  document.getElementById("phase1Btn").textContent="Primera fase "+(state.config.fase1_bloqueada?"🔒":"🔓");
+  const p2=document.getElementById("phase2Btn");
+  p2.className="btn "+(state.selectedPhase==="fase2"?"primary":"secondary");
+  p2.disabled=!state.config.fase2_habilitada;
+  p2.textContent="Segunda fase "+(!state.config.fase2_habilitada?"No habilitada":state.config.fase2_bloqueada?"🔒":"🔓");
+
+  const ms=phaseMatches(state.selectedPhase);
+  const userId=state.loggedUser?.id;
+  const preds=userId?userPredictions(userId):[];
+  const conf=userId?phaseConfirmed(userId,state.selectedPhase):false;
+  const pr=userId?phaseProgress(userId,state.selectedPhase):{total:ms.length,completed:0};
+  const pct=pr.total?Math.round(pr.completed/pr.total*100):0;
+  const locked=phaseLocked(state.selectedPhase);
+  const box=document.getElementById("confirmBox");
+
+  if(!userId){
+    box.className="card confirm-box locked";
+    box.innerHTML=`<h3>🔐 Inicia sesión</h3><p>Entra con tu nombre y PIN para pronosticar.</p><button class="btn primary" onclick="go('login')">Iniciar sesión</button>`;
+  } else if(conf){
+    box.className="card confirm-box locked";
+    box.innerHTML=`<h3>🔒 Pronósticos confirmados</h3><p>Ya confirmaste esta fase. No podrás modificarla.</p><div class="progress"><span style="width:100%"></span></div>`;
+  } else if(locked){
+    box.className="card confirm-box locked";
+    box.innerHTML="<h3>🔒 Fase bloqueada</h3><p>El administrador ya bloqueó esta fase.</p>";
+  } else {
+    box.className="card confirm-box";
+    box.innerHTML=`<h3>✅ Confirma tus pronósticos</h3><p>Avance: <b style="color:white">${pr.completed} de ${pr.total}</b> partidos completados.</p><div class="progress"><span style="width:${pct}%"></span></div><p>Después de confirmar no podrás modificar esta fase.</p><button class="btn primary" onclick="confirmPredictionsForPhase()" ${pr.completed<pr.total?"disabled":""}>Confirmar mis pronósticos</button>`;
+  }
+
+  document.getElementById("matchesGrid").innerHTML=ms.map(m=>{
+    const p=preds.find(x=>x.partido_id===m.id);
+    return `<div class="match"><div class="match-top"><span class="round">Partido ${m.id} · ${m.ronda}</span><span>📅 ${m.fecha} · ${m.hora}</span><span>🏟️ ${m.ciudad||""}</span><span>⭐ ${m.puntos||3} pts</span>${(locked||conf)?'<span class="locked">🔒 Bloqueado</span>':""}</div><h4>${m.equipo_local} <span style="color:#facc15">vs</span> ${m.equipo_visitante}</h4><div class="options">${["home","draw","away"].map(o=>`<button class="option ${p?.pronostico===o?"selected":""}" ${(locked||conf||!userId)?"disabled":""} onclick="savePrediction(${m.id},'${o}')">${optionLabel(m,o)}</button>`).join("")}</div><p>Tu elección: <b style="color:white">${optionLabel(m,p?.pronostico)}</b></p></div>`;
+  }).join("");
+}
+function renderRanking(){
+  document.getElementById("rankingBody").innerHTML=ranking().map((u,i)=>`<tr><td><b>#${i+1}</b></td><td><b>${u.nombre} ${u.apellido}</b></td><td>${u.pagado?"✅ Pagado":"⏳ Pendiente"}</td><td>${u.hits}</td><td><b style="color:#facc15;font-size:20px">${u.points}</b></td></tr>`).join("");
+}
+function renderAdmin(){
+  document.getElementById("adminLogin").style.display=state.adminSession?"none":"block";
+  document.getElementById("adminPanel").style.display=state.adminSession?"block":"none";
+  if(!state.adminSession) return;
+  document.getElementById("adminUsers").innerHTML=state.users.length ? state.users.map(u=>`<div class="match" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><b>${u.nombre} ${u.apellido}</b><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ${u.pagado?"success":"secondary"}" onclick="togglePaid('${u.id}',${u.pagado})">${u.pagado?"Pagado":"Pendiente"}</button><button class="btn secondary" onclick="resetUserPin('${u.id}')">Cambiar PIN</button><button class="btn danger" onclick="deleteUser('${u.id}')">Eliminar</button></div></div>`).join("") : "<p>Aún no hay participantes registrados.</p>";
+  const visible=state.matches.filter(m=>m.fase==="fase1"||state.config.fase2_habilitada);
+  const sel=document.getElementById("adminMatch");
+  const old=sel.value;
+  sel.innerHTML=visible.map(m=>`<option value="${m.id}">Partido ${m.id} · ${m.ronda} · ${m.equipo_local} vs ${m.equipo_visitante}</option>`).join("");
+  if(old) sel.value=old;
+  renderAdminMatch();
+}
+function renderAdminMatch(){
+  if(!state.adminSession) return;
+  const sel=document.getElementById("adminMatch");
+  const m=state.matches.find(x=>String(x.id)===String(sel.value)) || state.matches[0];
+  if(!m) return;
+  document.getElementById("adminMatchBox").innerHTML=`<div class="match"><h4>${m.equipo_local} vs ${m.equipo_visitante}</h4><p>${m.ronda} · ${m.ciudad||""}</p>${m.fase==="fase2"?`<input value="${m.equipo_local}" onchange="updateTeam(${m.id},'equipo_local',this.value)"><input value="${m.equipo_visitante}" onchange="updateTeam(${m.id},'equipo_visitante',this.value)">`:""}<p>Resultado actual: <b style="color:white">${optionLabel(m,m.resultado)}</b></p><div class="options">${["home","draw","away"].map(o=>`<button class="option" onclick="updateResult(${m.id},'${o}')">Cargar: ${optionLabel(m,o)}</button>`).join("")}</div></div>`;
+}
+function render(){
+  renderNav(); renderSections(); renderStats(); renderLogin(); renderSession(); renderMatches(); renderRanking(); renderAdmin();
+}
+loadAll();
+</script>
+</body>
+</html>
