@@ -1,7 +1,7 @@
-const SUPABASE_REST_URL = "https://kenkufeidbmhclrawpnk.supabase.co";
+const SUPABASE_REST_URL = "https://kenkufeidbmhclrawpnk.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_kJlCK89w0XRmBfz6gVt7iQ_vCH_Czpp";
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
     const path = req.query.path;
 
@@ -20,7 +20,10 @@ export default async function handler(req, res) {
         apikey: SUPABASE_KEY,
         Authorization: `Bearer ${SUPABASE_KEY}`,
         "Content-Type": "application/json",
-        Prefer: req.method === "GET" || req.method === "DELETE" ? "" : "return=representation"
+        Prefer:
+          req.method === "GET" || req.method === "DELETE"
+            ? ""
+            : "return=representation"
       },
       body:
         req.method === "GET" || req.method === "DELETE"
@@ -31,13 +34,18 @@ export default async function handler(req, res) {
     const text = await response.text();
 
     res.status(response.status);
-    res.setHeader("Content-Type", response.headers.get("content-type") || "application/json");
+    res.setHeader(
+      "Content-Type",
+      response.headers.get("content-type") || "application/json"
+    );
+
     return res.send(text);
   } catch (error) {
     return res.status(500).json({
       error: "Proxy error",
       message: error.message,
+      cause: error.cause ? String(error.cause) : null,
       supabaseUrl: SUPABASE_REST_URL
     });
   }
-}
+};
