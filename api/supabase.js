@@ -1,4 +1,4 @@
-const SUPABASE_REST_URL = "https://kenkufeidbmhclrawpnk.supabase.co/rest/v1";
+const SUPABASE_REST_URL = "https://kenkufeidbmhclrawpnk.supabase.co";
 const SUPABASE_KEY = "sb_publishable_kJlCK89w0XRmBfz6gVt7iQ_vCH_Czpp";
 
 export default async function handler(req, res) {
