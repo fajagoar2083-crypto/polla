@@ -20,6 +20,7 @@ h2{font-size:clamp(34px,5vw,58px);line-height:1;margin:22px 0 12px} h3{margin:0 
 .stat{display:flex;align-items:center;gap:14px} .stat-icon{width:56px;height:56px;display:grid;place-items:center;background:var(--yellow);color:#020617;border-radius:16px;font-size:28px} .stat-value{font-size:26px;font-weight:1000}
 .phase-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0} .match{background:rgba(2,6,23,.48);border:1px solid var(--border);border-radius:22px;padding:18px} .match-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:rgba(255,255,255,.68);font-size:14px;margin-bottom:12px} .round,.locked{border-radius:999px;padding:6px 10px;font-weight:900} .round{background:rgba(255,255,255,.12)} .locked{background:rgba(239,68,68,.22);color:#fecaca} .match h4{font-size:24px;margin:0 0 14px} .options{display:grid;gap:10px} .option{width:100%;text-align:left;border:1px solid var(--border);background:rgba(2,6,23,.72);color:#fff;border-radius:14px;padding:12px;font-weight:900;cursor:pointer} .option.selected{background:var(--yellow);color:#020617;border-color:var(--yellow)}
 .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:18px} table{width:100%;min-width:650px;border-collapse:collapse} th{background:var(--yellow);color:#020617;text-align:left;padding:13px} td{padding:13px;border-top:1px solid var(--border);background:rgba(2,6,23,.42)} .notice{border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.1)} .confirm-box{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.1)} .confirm-box.locked{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.1)} .progress{height:12px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden} .progress span{display:block;height:100%;background:var(--yellow)}
+.knockout-tabs{display:flex;gap:9px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:thin}.knockout-tab{flex:0 0 auto;border:1px solid var(--border);background:rgba(2,6,23,.72);color:#fff;border-radius:14px;padding:10px 13px;font-weight:900;cursor:pointer}.knockout-tab.active{background:var(--yellow);color:#020617;border-color:var(--yellow)}.knockout-tab small{display:block;font-weight:700;opacity:.75;margin-top:3px}.bracket-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 14px}.bracket-heading h3{margin:0}.team-name{display:flex;align-items:center;justify-content:space-between;gap:10px}.team-name span:last-child{opacity:.7;font-size:13px}.advance-note{margin:12px 0 0;font-size:13px;color:rgba(255,255,255,.62)}.waiting{border:1px dashed rgba(255,255,255,.24);border-radius:14px;padding:12px;color:rgba(255,255,255,.62);background:rgba(2,6,23,.35)}.champion-card{text-align:center;background:linear-gradient(135deg,rgba(250,204,21,.22),rgba(2,6,23,.75));border-color:rgba(250,204,21,.52)}.champion-name{font-size:clamp(30px,6vw,58px);font-weight:1000;color:#facc15;margin:8px 0}.bracket-warning{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.11)}
 @media(max-width:850px){header,.two{grid-template-columns:1fr;display:grid} nav{width:100%} .nav-btn{flex:1} .cards{grid-template-columns:1fr} .cup-wrap{width:210px;height:210px}}
 </style>
 </head>
@@ -46,7 +47,7 @@ h2{font-size:clamp(34px,5vw,58px);line-height:1;margin:22px 0 12px} h3{margin:0 
 
 <section id="registro" class="section"><div class="card" style="max-width:720px;margin:auto"><h3>Registro de participante</h3><p>Ingresa nombre y apellido. El administrador podrá marcar el pago de $100.000 COP.</p><form onsubmit="registerUser(event)"><input id="firstName" placeholder="Nombre" required><input id="lastName" placeholder="Apellido" required><input id="userPin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="Crea tu PIN de 4 dígitos" required><button class="btn primary" style="width:100%">Crear mi participación</button></form></div></section>
 
-<section id="pronosticos" class="section"><div class="card"><h3>Tus pronósticos</h3><div id="sessionBox"></div></div><div class="card notice" style="margin-top:16px"><h3>⚠️ Regla importante</h3><p>Primera fase: debes llenar todos los partidos de grupos. Segunda fase: cuando el admin la habilite, debes pronosticar todos los partidos desde treintaydosavos hasta la final. Cuando presiones <b>Confirmar mis pronósticos</b>, no podrás modificarlos.</p></div><div class="phase-tabs"><button id="phase1Btn" class="btn primary" onclick="setSelectedPhase('fase1')">Primera fase</button><button id="phase2Btn" class="btn secondary" onclick="setSelectedPhase('fase2')">Segunda fase</button></div><div id="matchesGrid" class="grid cards"></div><div id="confirmBox" class="card confirm-box" style="margin-top:16px"></div></section>
+<section id="pronosticos" class="section"><div class="card"><h3>Tus pronósticos</h3><div id="sessionBox"></div></div><div class="card notice" style="margin-top:16px"><h3>⚠️ Regla importante</h3><p>Primera fase: debes llenar todos los partidos de grupos. Segunda fase: cuando el admin la habilite, debes escoger al ganador de cada partido desde la Ronda de 32 hasta la final. Cada ganador aparecerá automáticamente en la ronda siguiente. Cuando presiones <b>Confirmar mis pronósticos</b>, no podrás modificarlos.</p></div><div class="phase-tabs"><button id="phase1Btn" class="btn primary" onclick="setSelectedPhase('fase1')">Primera fase</button><button id="phase2Btn" class="btn secondary" onclick="setSelectedPhase('fase2')">Segunda fase</button></div><div id="matchesGrid" class="grid cards"></div><div id="confirmBox" class="card confirm-box" style="margin-top:16px"></div></section>
 
 <section id="ranking" class="section"><div class="card"><h3>Tabla general</h3><p>Una sola clasificación para todos los participantes.</p><div class="table-wrap"><table><thead><tr><th>Puesto</th><th>Participante</th><th>Pago</th><th>Aciertos</th><th>Puntos</th></tr></thead><tbody id="rankingBody"></tbody></table></div></div></section>
 
@@ -64,6 +65,7 @@ const COP = new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maxim
 let state = {
   activeTab:"inicio",
   selectedPhase:"fase1",
+  selectedKnockoutRound:"r32",
   loggedUserId:null,
   currentUserId:null,
   users:[],
@@ -185,21 +187,221 @@ async function loadAll(){
 function go(tab){state.activeTab=tab;render();}
 function setSelectedPhase(ph){if(ph==="fase2"&&!state.phaseConfig.fase2Enabled)return;state.selectedPhase=ph;render();}
 function currentUser(){return state.users.find(u=>u.id===state.loggedUserId)||null;}
-function phaseMatches(ph){return state.matches.filter(m=>m.phase===ph && (m.phase==="fase1" || state.phaseConfig.fase2Enabled));}
-function isPhaseLocked(ph){return ph==="fase1" ? state.phaseConfig.fase1Locked : (!state.phaseConfig.fase2Enabled || state.phaseConfig.fase2Locked);}
+function stripText(value){
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+const KNOCKOUT_ROUNDS = [
+  {key:"r32", label:"Ronda de 32", short:"R32", points:6, expected:16},
+  {key:"r16", label:"Octavos", short:"8vos", points:7, expected:8},
+  {key:"qf", label:"Cuartos", short:"4tos", points:8, expected:4},
+  {key:"sf", label:"Semifinales", short:"Semis", points:9, expected:2},
+  {key:"f", label:"Final", short:"Final", points:10, expected:1}
+];
+
+function teamEquals(a,b){
+  return stripText(a) !== "" && stripText(a) === stripText(b);
+}
+
+function knockoutRoundKey(m){
+  const r = stripText(m && m.round);
+  if(/ronda de 32|round of 32|dieciseisav|treintaydosav|32avos|\br32\b|\b32\b/.test(r)) return "r32";
+  if(/octav|ronda de 16|round of 16|\br16\b|\b16\b/.test(r)) return "r16";
+  if(/cuart|quarter|\bqf\b/.test(r)) return "qf";
+  if(/semi|\bsf\b/.test(r)) return "sf";
+  if(/final|\bf\b/.test(r)) return "f";
+
+  const pts = Number(m && m.points);
+  const byPoints = KNOCKOUT_ROUNDS.find(x => x.points === pts);
+  return byPoints ? byPoints.key : "";
+}
+
+function knockoutStructure(){
+  const rounds = {};
+  KNOCKOUT_ROUNDS.forEach(r => rounds[r.key] = []);
+
+  state.matches.filter(m => m.phase === "fase2").forEach(m => {
+    const key = knockoutRoundKey(m);
+    if(key) rounds[key].push(m);
+  });
+
+  KNOCKOUT_ROUNDS.forEach(r => rounds[r.key].sort((a,b) => a.id - b.id));
+
+  const parents = {};
+  const next = {};
+  for(let i=0;i<KNOCKOUT_ROUNDS.length-1;i++){
+    const current = rounds[KNOCKOUT_ROUNDS[i].key];
+    const following = rounds[KNOCKOUT_ROUNDS[i+1].key];
+    current.forEach((m,index) => {
+      const target = following[Math.floor(index/2)];
+      if(!target) return;
+      next[m.id] = target.id;
+      if(!parents[target.id]) parents[target.id] = [];
+      parents[target.id][index % 2] = m.id;
+    });
+  }
+
+  const errors = KNOCKOUT_ROUNDS
+    .filter(r => rounds[r.key].length !== r.expected)
+    .map(r => `${r.label}: ${rounds[r.key].length}/${r.expected}`);
+
+  return {rounds, parents, next, errors};
+}
+
+function phaseMatches(ph){
+  if(ph === "fase2"){
+    if(!state.phaseConfig.fase2Enabled) return [];
+    const structure = knockoutStructure();
+    return KNOCKOUT_ROUNDS.flatMap(r => structure.rounds[r.key]);
+  }
+  return state.matches.filter(m => m.phase === ph);
+}
+
+function isPhaseLocked(ph){
+  return ph === "fase1"
+    ? state.phaseConfig.fase1Locked
+    : (!state.phaseConfig.fase2Enabled || state.phaseConfig.fase2Locked);
+}
+
 function isConfirmed(uid,ph){return !!state.confirmed[uid+"_"+ph];}
+
+function teamFromStoredPick(value, teams){
+  if(!value || !teams) return "";
+  if(value === "home") return teams.home || ""; // compatibilidad con pruebas antiguas
+  if(value === "away") return teams.away || "";
+  if(teamEquals(value, teams.home)) return teams.home || "";
+  if(teamEquals(value, teams.away)) return teams.away || "";
+  return "";
+}
+
+function selectedSide(value, teams){
+  const selectedTeam = teamFromStoredPick(value, teams);
+  if(teamEquals(selectedTeam, teams && teams.home)) return "home";
+  if(teamEquals(selectedTeam, teams && teams.away)) return "away";
+  return "";
+}
+
+function buildBracketTeams(uid=null, useActualResults=false){
+  const structure = knockoutStructure();
+  const slots = {};
+  const picks = useActualResults
+    ? Object.fromEntries(state.matches.filter(m => m.phase === "fase2").map(m => [m.id, m.result]))
+    : (state.predictions[uid] || {});
+
+  KNOCKOUT_ROUNDS.forEach((roundInfo, roundIndex) => {
+    structure.rounds[roundInfo.key].forEach((m,index) => {
+      if(roundIndex === 0){
+        slots[m.id] = {home:String(m.home || "").trim(), away:String(m.away || "").trim()};
+        return;
+      }
+
+      const parentIds = structure.parents[m.id] || [];
+      const firstParent = parentIds[0];
+      const secondParent = parentIds[1];
+      const firstTeams = slots[firstParent] || {home:"",away:""};
+      const secondTeams = slots[secondParent] || {home:"",away:""};
+
+      slots[m.id] = {
+        home:teamFromStoredPick(picks[firstParent], firstTeams),
+        away:teamFromStoredPick(picks[secondParent], secondTeams)
+      };
+    });
+  });
+
+  return {structure, slots, picks};
+}
+
+function clearPredictionDescendants(uid, matchId, structure=knockoutStructure()){
+  const p = state.predictions[uid] || {};
+  let nextId = structure.next[matchId];
+  while(nextId){
+    delete p[nextId];
+    nextId = structure.next[nextId];
+  }
+}
+
 function optionChoices(m){
   return m.phase === "fase1" ? ["home","draw","away"] : ["home","away"];
 }
-function optionLabel(m,o){
-  if(o==="home") return m.phase === "fase1" ? "Gana "+m.home : "Clasifica "+m.home;
-  if(o==="away") return m.phase === "fase1" ? "Gana "+m.away : "Clasifica "+m.away;
-  if(o==="draw") return "Empate";
+
+function optionLabel(m,o,teams=null){
+  const t = teams || {home:m.home, away:m.away};
+  if(m.phase === "fase2"){
+    const selectedTeam = teamFromStoredPick(o,t) || (o !== "home" && o !== "away" ? String(o || "") : "");
+    return selectedTeam ? "Clasifica " + selectedTeam : "Sin pronóstico";
+  }
+  if(o === "home") return "Gana " + m.home;
+  if(o === "away") return "Gana " + m.away;
+  if(o === "draw") return "Empate";
   return "Sin pronóstico";
 }
-function matchPoints(m){return Number(m.points)||3;}
-function progress(uid,ph){const ms=phaseMatches(ph), p=state.predictions[uid]||{};return {total:ms.length, completed:ms.filter(m=>p[m.id]).length};}
 
+function matchPoints(m){return Number(m.points)||3;}
+
+function progress(uid,ph){
+  const ms = phaseMatches(ph);
+  const p = state.predictions[uid] || {};
+  if(ph === "fase1") return {total:ms.length, completed:ms.filter(m => p[m.id]).length};
+
+  const built = buildBracketTeams(uid,false);
+  return {
+    total:ms.length,
+    completed:ms.filter(m => teamFromStoredPick(p[m.id], built.slots[m.id])).length
+  };
+}
+
+function setKnockoutRound(roundKey){
+  if(!KNOCKOUT_ROUNDS.some(r => r.key === roundKey)) return;
+  state.selectedKnockoutRound = roundKey;
+  render();
+}
+
+function savePrediction(id,opt){
+  if(!state.loggedUserId){
+    alert("Primero debes iniciar sesión con tu PIN.");
+    go("login");
+    return;
+  }
+
+  const m = state.matches.find(x => x.id === id);
+  if(!m || isPhaseLocked(m.phase)) return;
+
+  if(isConfirmed(state.loggedUserId,m.phase)){
+    alert("Ya confirmaste esta fase. No puedes modificarla.");
+    return;
+  }
+
+  if(!state.predictions[state.loggedUserId]) state.predictions[state.loggedUserId] = {};
+  const predictions = state.predictions[state.loggedUserId];
+
+  if(m.phase === "fase2"){
+    const built = buildBracketTeams(state.loggedUserId,false);
+    const teams = built.slots[id] || {home:"",away:""};
+    const selectedTeam = opt === "home" ? teams.home : teams.away;
+    if(!teams.home || !teams.away || !selectedTeam){
+      alert("Primero debes definir los ganadores de la ronda anterior.");
+      return;
+    }
+
+    const previousTeam = teamFromStoredPick(predictions[id],teams);
+    if(previousTeam && !teamEquals(previousTeam,selectedTeam)){
+      clearPredictionDescendants(state.loggedUserId,id,built.structure);
+    }
+
+    // En fase eliminatoria se guarda el EQUIPO, no solamente home/away.
+    predictions[id] = selectedTeam;
+  }else{
+    predictions[id] = opt;
+  }
+
+  state.dirty[state.loggedUserId + "_" + m.phase] = true;
+  render();
+}
 async function registerUser(e){
   e.preventDefault();
 
@@ -278,27 +480,6 @@ function logoutUser(){
   render();
 }
 
-function savePrediction(id,opt){
-  if(!state.loggedUserId){
-    alert("Primero debes iniciar sesión con tu PIN.");
-    go("login");
-    return;
-  }
-
-  const m=state.matches.find(x=>x.id===id);
-  if(!m||isPhaseLocked(m.phase))return;
-
-  if(isConfirmed(state.loggedUserId,m.phase)){
-    alert("Ya confirmaste esta fase. No puedes modificarla.");
-    return;
-  }
-
-  if(!state.predictions[state.loggedUserId]) state.predictions[state.loggedUserId] = {};
-  state.predictions[state.loggedUserId][id] = opt;
-  state.dirty[state.loggedUserId + "_" + m.phase] = true;
-
-  render();
-}
 
 async function confirmPredictionsForPhase(){
   if(!state.loggedUserId){
@@ -325,10 +506,17 @@ async function confirmPredictionsForPhase(){
 
   const ms = phaseMatches(phase);
   const preds = state.predictions[state.loggedUserId] || {};
-  const picks = ms.map(m => `${m.id}:${preds[m.id]}`).join(",");
+  const picksJson = JSON.stringify(ms.map(m => ({
+    partido_id: m.id,
+    pronostico: preds[m.id]
+  })));
 
   try{
-    const r=await jsonp("confirmPhaseBulk",{participante_id:state.loggedUserId,fase:phase,picks});
+    const r=await jsonp("confirmPhaseBulk",{
+      participante_id:state.loggedUserId,
+      fase:phase,
+      picks_json:picksJson
+    });
     if(!r.ok){alert(r.error||"No se pudo confirmar");return;}
 
     delete state.dirty[state.loggedUserId + "_" + phase];
@@ -340,19 +528,35 @@ async function confirmPredictionsForPhase(){
 }
 
 function ranking(){
-  return state.users.map(u=>{
-    const p=state.predictions[u.id]||{};
-    let points=0,hits=0;
-    state.matches.forEach(m=>{
-      if(m.result && p[m.id]===m.result){
-        points+=matchPoints(m);
+  const actualBuilt = buildBracketTeams(null,true);
+
+  return state.users.map(u => {
+    const p = state.predictions[u.id] || {};
+    const userBuilt = buildBracketTeams(u.id,false);
+    let points = 0;
+    let hits = 0;
+
+    state.matches.forEach(m => {
+      if(!m.result || !p[m.id]) return;
+
+      let correct = false;
+      if(m.phase === "fase1"){
+        correct = p[m.id] === m.result;
+      }else{
+        const predictedTeam = teamFromStoredPick(p[m.id], userBuilt.slots[m.id]);
+        const actualTeam = teamFromStoredPick(m.result, actualBuilt.slots[m.id]) || String(m.result || "");
+        correct = teamEquals(predictedTeam,actualTeam);
+      }
+
+      if(correct){
+        points += matchPoints(m);
         hits++;
       }
     });
-    return {...u,points,hits};
-  }).sort((a,b)=>b.points-a.points||b.hits-a.hits||a.firstName.localeCompare(b.firstName));
-}
 
+    return {...u,points,hits};
+  }).sort((a,b) => b.points-a.points || b.hits-a.hits || a.firstName.localeCompare(b.firstName));
+}
 function adminLogin(e){
   e.preventDefault();
   const pass=document.getElementById("adminPassword").value;
@@ -403,12 +607,54 @@ async function deleteUser(id){
 }
 
 async function updateResult(id,result){
-  if(!adminSession)return;
-  const r=await jsonp("updateMatchResult",{id_partido:id,resultado:result});
+  if(!adminSession) return;
+  const m = state.matches.find(x => x.id === id);
+  if(!m) return;
+
+  if(m.phase === "fase2"){
+    return updateKnockoutResult(id,result);
+  }
+
+  const r = await jsonp("updateMatchResult",{id_partido:id,resultado:result});
   if(!r.ok){alert(r.error||"No se pudo cargar resultado");return;}
   await loadAll();
 }
 
+async function clearActualDescendants(matchId, structure=knockoutStructure()){
+  let nextId = structure.next[matchId];
+  while(nextId){
+    const r = await jsonp("updateMatchResult",{id_partido:nextId,resultado:""});
+    if(!r.ok) throw new Error(r.error || "No se pudo limpiar un resultado posterior");
+    nextId = structure.next[nextId];
+  }
+}
+
+async function updateKnockoutResult(id,side){
+  if(!adminSession) return;
+  const m = state.matches.find(x => x.id === id);
+  if(!m) return;
+
+  const built = buildBracketTeams(null,true);
+  const teams = built.slots[id] || {home:"",away:""};
+  const selectedTeam = side === "home" ? teams.home : teams.away;
+  if(!selectedTeam){
+    alert("Aún no están definidos los dos equipos de este partido.");
+    return;
+  }
+
+  const previousTeam = teamFromStoredPick(m.result,teams);
+  try{
+    if(previousTeam && !teamEquals(previousTeam,selectedTeam)){
+      await clearActualDescendants(id,built.structure);
+    }
+
+    const r = await jsonp("updateMatchResult",{id_partido:id,resultado:selectedTeam});
+    if(!r.ok){alert(r.error||"No se pudo cargar resultado");return;}
+    await loadAll();
+  }catch(err){
+    alert("No se pudo actualizar el cuadro real: " + err.message);
+  }
+}
 async function updateTeam(id,field,value){
   if(!adminSession)return;
   const campo = field==="home" ? "equipo_local" : "equipo_visitante";
@@ -487,73 +733,137 @@ function renderUsers(){
   }
 }
 
-function renderMatches(){
-  document.getElementById("phase1Btn").className="btn "+(state.selectedPhase==="fase1"?"primary":"secondary");
-  document.getElementById("phase1Btn").textContent="Primera fase "+(state.phaseConfig.fase1Locked?"🔒":"🔓");
-
-  const p2=document.getElementById("phase2Btn");
-  p2.className="btn "+(state.selectedPhase==="fase2"?"primary":"secondary");
-  p2.disabled=!state.phaseConfig.fase2Enabled;
-  p2.textContent="Segunda fase "+(!state.phaseConfig.fase2Enabled?"No habilitada":state.phaseConfig.fase2Locked?"🔒":"🔓");
-
-  const activeId=state.loggedUserId;
-  const ms=phaseMatches(state.selectedPhase);
-  const preds=state.predictions[activeId]||{};
-  const conf=isConfirmed(activeId,state.selectedPhase);
-  const pr=progress(activeId,state.selectedPhase);
-  const pct=pr.total?Math.round(pr.completed/pr.total*100):0;
-  const locked=isPhaseLocked(state.selectedPhase);
-  const hasDirty=!!state.dirty[activeId+"_"+state.selectedPhase];
-
-  const box=document.getElementById("confirmBox");
+function renderConfirmBox(activeId,phase,conf,locked){
+  const pr = progress(activeId,phase);
+  const pct = pr.total ? Math.round(pr.completed/pr.total*100) : 0;
+  const hasDirty = !!state.dirty[activeId+"_"+phase];
+  const box = document.getElementById("confirmBox");
 
   if(!state.loggedUserId){
-    box.className="card confirm-box locked";
-    box.innerHTML="<h3>🔐 Inicia sesión</h3><p>Entra con tu nombre y PIN de 4 dígitos para hacer tus pronósticos.</p><button class=\"btn primary\" onclick=\"go('login')\">Iniciar sesión</button>";
+    box.className = "card confirm-box locked";
+    box.innerHTML = "<h3>🔐 Inicia sesión</h3><p>Entra con tu nombre y PIN de 4 dígitos para hacer tus pronósticos.</p><button class=\"btn primary\" onclick=\"go('login')\">Iniciar sesión</button>";
   }else if(conf){
-    box.className="card confirm-box locked";
-    box.innerHTML='<h3>🔒 Pronósticos confirmados</h3><p>Ya confirmaste esta fase. No podrás modificarla.</p><div class="progress"><span style="width:100%"></span></div>';
+    box.className = "card confirm-box locked";
+    box.innerHTML = '<h3>🔒 Pronósticos confirmados</h3><p>Ya confirmaste esta fase. No podrás modificarla.</p><div class="progress"><span style="width:100%"></span></div>';
   }else if(locked){
-    box.className="card confirm-box locked";
-    box.innerHTML="<h3>🔒 Fase bloqueada</h3><p>El administrador ya bloqueó esta fase.</p>";
+    box.className = "card confirm-box locked";
+    box.innerHTML = "<h3>🔒 Fase bloqueada</h3><p>El administrador ya bloqueó esta fase.</p>";
   }else{
-    box.className="card confirm-box";
-    box.innerHTML=`<h3>✅ Guarda y confirma al final</h3><p>Avance: <b style="color:white">${pr.completed} de ${pr.total}</b> partidos completados.</p><div class="progress"><span style="width:${pct}%"></span></div><p>${hasDirty ? "Tus selecciones están listas, pero aún no se han guardado en Google Sheets." : "Selecciona todos los partidos y confirma al final."}</p><button class="btn primary" onclick="confirmPredictionsForPhase()" ${pr.completed<pr.total?"disabled":""}>Guardar y confirmar mis pronósticos</button>`;
+    box.className = "card confirm-box";
+    box.innerHTML = `<h3>✅ Guarda y confirma al final</h3><p>Avance: <b style="color:white">${pr.completed} de ${pr.total}</b> partidos completados.</p><div class="progress"><span style="width:${pct}%"></span></div><p>${hasDirty ? "Tus selecciones están listas, pero aún no se han guardado en Google Sheets." : "Selecciona todos los partidos y confirma al final."}</p><button class="btn primary" onclick="confirmPredictionsForPhase()" ${pr.completed<pr.total?"disabled":""}>Guardar y confirmar mis pronósticos</button>`;
   }
-
-  document.getElementById("matchesGrid").innerHTML=ms.map(m=>`<div class="match"><div class="match-top"><span class="round">Partido ${m.id} · ${m.round}</span><span>📅 ${m.date} · ${m.time}</span><span>🏟️ ${m.city}</span><span>⭐ ${matchPoints(m)} pts</span>${(locked||conf)?'<span class="locked">🔒 Bloqueado</span>':""}</div><h4>${m.home} <span style="color:#facc15">vs</span> ${m.away}</h4><div class="options">${optionChoices(m).map(o=>`<button class="option ${preds[m.id]===o?"selected":""}" ${(locked||conf||!state.loggedUserId)?"disabled":""} onclick="savePrediction(${m.id},'${o}')">${optionLabel(m,o)}</button>`).join("")}</div><p>Tu elección: <b style="color:white">${optionLabel(m,preds[m.id])}</b></p></div>`).join("");
 }
 
+function renderGroupMatches(activeId,preds,conf,locked){
+  const ms = phaseMatches("fase1");
+  document.getElementById("matchesGrid").className = "grid cards";
+  document.getElementById("matchesGrid").innerHTML = ms.map(m => `<div class="match"><div class="match-top"><span class="round">Partido ${m.id} · ${m.round}</span><span>📅 ${m.date} · ${m.time}</span><span>🏟️ ${m.city}</span><span>⭐ ${matchPoints(m)} pts</span>${(locked||conf)?'<span class="locked">🔒 Bloqueado</span>':""}</div><h4>${m.home} <span style="color:#facc15">vs</span> ${m.away}</h4><div class="options">${optionChoices(m).map(o => `<button class="option ${preds[m.id]===o?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'${o}')">${optionLabel(m,o)}</button>`).join("")}</div><p>Tu elección: <b style="color:white">${optionLabel(m,preds[m.id])}</b></p></div>`).join("");
+}
+
+function renderKnockoutMatches(activeId,preds,conf,locked){
+  const built = buildBracketTeams(activeId,false);
+  const structure = built.structure;
+  const validRoundKeys = KNOCKOUT_ROUNDS.filter(r => structure.rounds[r.key].length).map(r => r.key);
+  if(!validRoundKeys.includes(state.selectedKnockoutRound)) state.selectedKnockoutRound = validRoundKeys[0] || "r32";
+
+  const tabs = KNOCKOUT_ROUNDS.map(r => {
+    const matches = structure.rounds[r.key];
+    const completed = matches.filter(m => teamFromStoredPick(preds[m.id], built.slots[m.id])).length;
+    return `<button class="knockout-tab ${state.selectedKnockoutRound===r.key?"active":""}" onclick="setKnockoutRound('${r.key}')" ${matches.length?"":"disabled"}>${r.label}<small>${completed}/${matches.length || r.expected}</small></button>`;
+  }).join("");
+
+  const roundInfo = KNOCKOUT_ROUNDS.find(r => r.key === state.selectedKnockoutRound) || KNOCKOUT_ROUNDS[0];
+  const ms = structure.rounds[roundInfo.key] || [];
+
+  const warning = structure.errors.length
+    ? `<div class="card bracket-warning" style="margin-bottom:14px"><h3>⚠️ El cuadro necesita revisión</h3><p>La hoja Partidos no tiene todavía la cantidad correcta de encuentros: <b style="color:white">${structure.errors.join(" · ")}</b>. El cuadro funcionará completamente cuando existan los 31 partidos eliminatorios.</p></div>`
+    : "";
+
+  const cards = ms.map((m,index) => {
+    const teams = built.slots[m.id] || {home:"",away:""};
+    const side = selectedSide(preds[m.id],teams);
+    const available = !!(teams.home && teams.away);
+    const nextId = structure.next[m.id];
+    const parentIds = structure.parents[m.id] || [];
+    const waitingText = !available && roundInfo.key !== "r32"
+      ? `Esperando a los ganadores de los partidos ${parentIds.filter(Boolean).join(" y ")}.`
+      : "";
+
+    return `<div class="match"><div class="match-top"><span class="round">Partido ${m.id} · ${roundInfo.label}</span><span>⭐ ${matchPoints(m)} pts</span>${(locked||conf)?'<span class="locked">🔒 Bloqueado</span>':""}</div>${available?`<h4>${teams.home} <span style="color:#facc15">vs</span> ${teams.away}</h4><div class="options"><button class="option ${side==="home"?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'home')"><span class="team-name"><span>Clasifica ${teams.home}</span><span>${side==="home"?"✓":""}</span></span></button><button class="option ${side==="away"?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'away')"><span class="team-name"><span>Clasifica ${teams.away}</span><span>${side==="away"?"✓":""}</span></span></button></div><p>Tu elección: <b style="color:white">${teamFromStoredPick(preds[m.id],teams) || "Sin pronóstico"}</b></p>`:`<div class="waiting">⏳ ${waitingText || "Faltan los equipos de este partido."}</div>`}${nextId?`<p class="advance-note">↗ El ganador aparecerá automáticamente en el Partido ${nextId}.</p>`:""}</div>`;
+  }).join("");
+
+  const finalMatch = structure.rounds.f[0];
+  const champion = finalMatch ? teamFromStoredPick(preds[finalMatch.id], built.slots[finalMatch.id]) : "";
+  const championHtml = champion
+    ? `<div class="card champion-card" style="margin-top:16px"><div style="font-size:48px">🏆</div><h3>Tu campeón del mundo</h3><div class="champion-name">${champion}</div><p>Este equipo quedó seleccionado como campeón en tu bracket.</p></div>`
+    : "";
+
+  document.getElementById("matchesGrid").className = "";
+  document.getElementById("matchesGrid").innerHTML = `${warning}<div class="knockout-tabs">${tabs}</div><div class="bracket-heading"><h3>${roundInfo.label}</h3><span class="round">${ms.length} partidos</span></div><div class="grid cards">${cards || '<div class="card"><p>No hay partidos configurados para esta ronda.</p></div>'}</div>${championHtml}`;
+}
+
+function renderMatches(){
+  document.getElementById("phase1Btn").className = "btn " + (state.selectedPhase === "fase1" ? "primary" : "secondary");
+  document.getElementById("phase1Btn").textContent = "Primera fase " + (state.phaseConfig.fase1Locked ? "🔒" : "🔓");
+
+  const p2 = document.getElementById("phase2Btn");
+  p2.className = "btn " + (state.selectedPhase === "fase2" ? "primary" : "secondary");
+  p2.disabled = !state.phaseConfig.fase2Enabled;
+  p2.textContent = "Segunda fase " + (!state.phaseConfig.fase2Enabled ? "No habilitada" : state.phaseConfig.fase2Locked ? "🔒" : "🔓");
+
+  const activeId = state.loggedUserId;
+  const preds = state.predictions[activeId] || {};
+  const conf = isConfirmed(activeId,state.selectedPhase);
+  const locked = isPhaseLocked(state.selectedPhase);
+
+  renderConfirmBox(activeId,state.selectedPhase,conf,locked);
+  if(state.selectedPhase === "fase2") renderKnockoutMatches(activeId,preds,conf,locked);
+  else renderGroupMatches(activeId,preds,conf,locked);
+}
 function renderRanking(){
   document.getElementById("rankingBody").innerHTML=ranking().map((u,i)=>`<tr><td><b>#${i+1}</b></td><td><b>${u.firstName} ${u.lastName}</b></td><td>${u.paid?"✅ Pagado":"⏳ Pendiente"}</td><td>${u.hits}</td><td><b style="color:#facc15;font-size:20px">${u.points}</b></td></tr>`).join("");
 }
 
 function renderAdmin(){
-  document.getElementById("adminLogin").style.display=adminSession?"none":"block";
-  document.getElementById("adminPanel").style.display=adminSession?"block":"none";
+  document.getElementById("adminLogin").style.display = adminSession ? "none" : "block";
+  document.getElementById("adminPanel").style.display = adminSession ? "block" : "none";
+  if(!adminSession) return;
 
-  if(!adminSession)return;
+  const actualBuilt = buildBracketTeams(null,true);
+  const visible = state.matches.filter(m => m.phase === "fase1" || state.phaseConfig.fase2Enabled);
+  const sel = document.getElementById("adminMatch");
+  const old = sel.value;
 
-  const visible=state.matches.filter(m=>m.phase==="fase1"||state.phaseConfig.fase2Enabled);
-  const sel=document.getElementById("adminMatch");
-  const old=sel.value;
+  sel.innerHTML = visible.map(m => {
+    const teams = m.phase === "fase2" ? (actualBuilt.slots[m.id] || {home:"Por definir",away:"Por definir"}) : {home:m.home,away:m.away};
+    return `<option value="${m.id}">Partido ${m.id} · ${m.round} · ${teams.home || "Por definir"} vs ${teams.away || "Por definir"}</option>`;
+  }).join("");
 
-  sel.innerHTML=visible.map(m=>`<option value="${m.id}">Partido ${m.id} · ${m.round} · ${m.home} vs ${m.away}</option>`).join("");
-  if(old)sel.value=old;
-
+  if(old && visible.some(m => String(m.id) === String(old))) sel.value = old;
   renderAdminMatch();
 }
 
 function renderAdminMatch(){
-  if(!adminSession)return;
+  if(!adminSession) return;
 
-  const id=Number(document.getElementById("adminMatch").value);
-  const m=state.matches.find(x=>x.id===id)||state.matches[0];
-  if(!m)return;
+  const id = Number(document.getElementById("adminMatch").value);
+  const m = state.matches.find(x => x.id === id) || state.matches[0];
+  if(!m) return;
 
-  document.getElementById("adminMatchBox").innerHTML=`<div class="match"><h4>${m.home} vs ${m.away}</h4><p>${m.round} · ${m.city}</p>${m.phase==="fase2"?`<input value="${m.home}" onchange="updateTeam(${m.id},'home',this.value)"><input value="${m.away}" onchange="updateTeam(${m.id},'away',this.value)">`:""}<p>Resultado actual: <b style="color:white">${optionLabel(m,m.result)}</b></p><div class="options">${optionChoices(m).map(o=>`<button class="option" onclick="updateResult(${m.id},'${o}')">Cargar: ${optionLabel(m,o)}</button>`).join("")}</div></div>`;
+  if(m.phase === "fase1"){
+    document.getElementById("adminMatchBox").innerHTML = `<div class="match"><h4>${m.home} vs ${m.away}</h4><p>${m.round} · ${m.city}</p><p>Resultado actual: <b style="color:white">${optionLabel(m,m.result)}</b></p><div class="options">${optionChoices(m).map(o => `<button class="option" onclick="updateResult(${m.id},'${o}')">Cargar: ${optionLabel(m,o)}</button>`).join("")}</div></div>`;
+    return;
+  }
+
+  const built = buildBracketTeams(null,true);
+  const teams = built.slots[m.id] || {home:"",away:""};
+  const actualWinner = teamFromStoredPick(m.result,teams) || (m.result && m.result !== "home" && m.result !== "away" ? m.result : "");
+  const roundKey = knockoutRoundKey(m);
+  const isFirstRound = roundKey === "r32";
+  const available = !!(teams.home && teams.away);
+
+  document.getElementById("adminMatchBox").innerHTML = `<div class="match"><h4>${teams.home || "Por definir"} <span style="color:#facc15">vs</span> ${teams.away || "Por definir"}</h4><p>${m.round} · ${m.city || "Sede por definir"}</p>${isFirstRound?`<p style="color:#fef08a">En la Ronda de 32 puedes corregir los equipos iniciales:</p><input value="${m.home}" onchange="updateTeam(${m.id},'home',this.value)"><input value="${m.away}" onchange="updateTeam(${m.id},'away',this.value)">`:"<p>Los equipos de esta ronda se generan automáticamente con los resultados anteriores.</p>"}<p>Clasificado real: <b style="color:white">${actualWinner || "Sin resultado"}</b></p>${available?`<div class="options"><button class="option ${teamEquals(actualWinner,teams.home)?"selected":""}" onclick="updateKnockoutResult(${m.id},'home')">Clasificó ${teams.home}</button><button class="option ${teamEquals(actualWinner,teams.away)?"selected":""}" onclick="updateKnockoutResult(${m.id},'away')">Clasificó ${teams.away}</button></div>`:'<div class="waiting">⏳ Carga primero los resultados de la ronda anterior.</div>'}</div>`;
 }
-
 function render(){
   renderNav();
   renderSections();
