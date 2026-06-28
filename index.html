@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Polla Mundialista</title>
+<meta name="app-version" content="bracket-cruces-v3">
 <style>
 :root { --bg:#020617; --card:rgba(255,255,255,.1); --border:rgba(255,255,255,.18); --yellow:#facc15; --green:#22c55e; --red:#ef4444; }
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#3b3209,transparent 25%),radial-gradient(circle at bottom left,#064e3b,transparent 32%),radial-gradient(circle at bottom right,#172554,transparent 32%),var(--bg);color:#fff;min-height:100vh}
@@ -221,6 +222,27 @@ function knockoutRoundKey(m){
   return byPoints ? byPoints.key : "";
 }
 
+// Cruces oficiales del cuadro. No se pueden calcular por orden consecutivo,
+// porque la Ronda de 32 no alimenta los octavos como 73-74, 75-76, etc.
+// Cada partido destino indica exactamente de cuáles partidos recibe sus equipos.
+const BRACKET_PARENT_IDS = {
+  89:  [74, 77],
+  90:  [73, 75],
+  91:  [76, 78],
+  92:  [79, 80],
+  93:  [83, 84],
+  94:  [81, 82],
+  95:  [86, 88],
+  96:  [85, 87],
+  97:  [89, 90],
+  98:  [93, 94],
+  99:  [91, 92],
+  100: [95, 96],
+  101: [97, 98],
+  102: [99, 100],
+  103: [101, 102]
+};
+
 function knockoutStructure(){
   const rounds = {};
   KNOCKOUT_ROUNDS.forEach(r => rounds[r.key] = []);
@@ -232,25 +254,36 @@ function knockoutStructure(){
 
   KNOCKOUT_ROUNDS.forEach(r => rounds[r.key].sort((a,b) => a.id - b.id));
 
+  const matchIds = new Set(state.matches.filter(m => m.phase === "fase2").map(m => Number(m.id)));
   const parents = {};
   const next = {};
-  for(let i=0;i<KNOCKOUT_ROUNDS.length-1;i++){
-    const current = rounds[KNOCKOUT_ROUNDS[i].key];
-    const following = rounds[KNOCKOUT_ROUNDS[i+1].key];
-    current.forEach((m,index) => {
-      const target = following[Math.floor(index/2)];
-      if(!target) return;
-      next[m.id] = target.id;
-      if(!parents[target.id]) parents[target.id] = [];
-      parents[target.id][index % 2] = m.id;
-    });
-  }
+  const mappingErrors = [];
 
-  const errors = KNOCKOUT_ROUNDS
+  Object.entries(BRACKET_PARENT_IDS).forEach(([targetIdText,parentIds]) => {
+    const targetId = Number(targetIdText);
+    if(!matchIds.has(targetId)){
+      mappingErrors.push(`Falta el Partido ${targetId}`);
+      return;
+    }
+
+    const validParents = parentIds.map(Number);
+    const missingParents = validParents.filter(id => !matchIds.has(id));
+    if(missingParents.length){
+      mappingErrors.push(`Partido ${targetId}: faltan ${missingParents.join(" y ")}`);
+      return;
+    }
+
+    parents[targetId] = validParents;
+    validParents.forEach(parentId => {
+      next[parentId] = targetId;
+    });
+  });
+
+  const countErrors = KNOCKOUT_ROUNDS
     .filter(r => rounds[r.key].length !== r.expected)
     .map(r => `${r.label}: ${rounds[r.key].length}/${r.expected}`);
 
-  return {rounds, parents, next, errors};
+  return {rounds, parents, next, errors:[...countErrors,...mappingErrors]};
 }
 
 function phaseMatches(ph){
