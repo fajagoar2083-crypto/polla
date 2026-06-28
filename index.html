@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Polla Mundialista</title>
-<meta name="app-version" content="bracket-cruces-v3">
+<meta name="app-version" content="bracket-tabs-cuartos-v5">
 <style>
 :root { --bg:#020617; --card:rgba(255,255,255,.1); --border:rgba(255,255,255,.18); --yellow:#facc15; --green:#22c55e; --red:#ef4444; }
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#3b3209,transparent 25%),radial-gradient(circle at bottom left,#064e3b,transparent 32%),radial-gradient(circle at bottom right,#172554,transparent 32%),var(--bg);color:#fff;min-height:100vh}
@@ -822,7 +822,16 @@ function renderKnockoutMatches(activeId,preds,conf,locked){
       ? `Esperando a los ganadores de los partidos ${parentIds.filter(Boolean).join(" y ")}.`
       : "";
 
-    return `<div class="match"><div class="match-top"><span class="round">Partido ${m.id} · ${roundInfo.label}</span><span>⭐ ${matchPoints(m)} pts</span>${(locked||conf)?'<span class="locked">🔒 Bloqueado</span>':""}</div>${available?`<h4>${teams.home} <span style="color:#facc15">vs</span> ${teams.away}</h4><div class="options"><button class="option ${side==="home"?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'home')"><span class="team-name"><span>Clasifica ${teams.home}</span><span>${side==="home"?"✓":""}</span></span></button><button class="option ${side==="away"?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'away')"><span class="team-name"><span>Clasifica ${teams.away}</span><span>${side==="away"?"✓":""}</span></span></button></div><p>Tu elección: <b style="color:white">${teamFromStoredPick(preds[m.id],teams) || "Sin pronóstico"}</b></p>`:`<div class="waiting">⏳ ${waitingText || "Faltan los equipos de este partido."}</div>`}${nextId?`<p class="advance-note">↗ El ganador aparecerá automáticamente en el Partido ${nextId}.</p>`:""}</div>`;
+    const visibleHome = teams.home || "Por definir";
+    const visibleAway = teams.away || "Por definir";
+    const partialStatus = !available && roundInfo.key !== "r32"
+      ? `<div class="waiting">⏳ ${waitingText || "Falta definir uno de los equipos."}</div>`
+      : "";
+    const optionsHtml = available
+      ? `<div class="options"><button class="option ${side==="home"?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'home')"><span class="team-name"><span>Clasifica ${teams.home}</span><span>${side==="home"?"✓":""}</span></span></button><button class="option ${side==="away"?"selected":""}" ${(locked||conf||!activeId)?"disabled":""} onclick="savePrediction(${m.id},'away')"><span class="team-name"><span>Clasifica ${teams.away}</span><span>${side==="away"?"✓":""}</span></span></button></div><p>Tu elección: <b style="color:white">${teamFromStoredPick(preds[m.id],teams) || "Sin pronóstico"}</b></p>`
+      : "";
+
+    return `<div class="match"><div class="match-top"><span class="round">Partido ${m.id} · ${roundInfo.label}</span><span>⭐ ${matchPoints(m)} pts</span>${(locked||conf)?'<span class="locked">🔒 Bloqueado</span>':""}</div><h4>${visibleHome} <span style="color:#facc15">vs</span> ${visibleAway}</h4>${optionsHtml}${partialStatus}${nextId?`<p class="advance-note">↗ El ganador aparecerá automáticamente en el Partido ${nextId}.</p>`:""}</div>`;
   }).join("");
 
   const finalMatch = structure.rounds.f[0];
