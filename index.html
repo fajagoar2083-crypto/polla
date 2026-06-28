@@ -4,7 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Polla Mundialista</title>
-<meta name="app-version" content="bracket-tabs-cuartos-v5">
+<meta name="app-version" content="cruces-oficiales-v7">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <style>
 :root { --bg:#020617; --card:rgba(255,255,255,.1); --border:rgba(255,255,255,.18); --yellow:#facc15; --green:#22c55e; --red:#ef4444; }
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#3b3209,transparent 25%),radial-gradient(circle at bottom left,#064e3b,transparent 32%),radial-gradient(circle at bottom right,#172554,transparent 32%),var(--bg);color:#fff;min-height:100vh}
@@ -21,7 +24,7 @@ h2{font-size:clamp(34px,5vw,58px);line-height:1;margin:22px 0 12px} h3{margin:0 
 .stat{display:flex;align-items:center;gap:14px} .stat-icon{width:56px;height:56px;display:grid;place-items:center;background:var(--yellow);color:#020617;border-radius:16px;font-size:28px} .stat-value{font-size:26px;font-weight:1000}
 .phase-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0} .match{background:rgba(2,6,23,.48);border:1px solid var(--border);border-radius:22px;padding:18px} .match-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:rgba(255,255,255,.68);font-size:14px;margin-bottom:12px} .round,.locked{border-radius:999px;padding:6px 10px;font-weight:900} .round{background:rgba(255,255,255,.12)} .locked{background:rgba(239,68,68,.22);color:#fecaca} .match h4{font-size:24px;margin:0 0 14px} .options{display:grid;gap:10px} .option{width:100%;text-align:left;border:1px solid var(--border);background:rgba(2,6,23,.72);color:#fff;border-radius:14px;padding:12px;font-weight:900;cursor:pointer} .option.selected{background:var(--yellow);color:#020617;border-color:var(--yellow)}
 .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:18px} table{width:100%;min-width:650px;border-collapse:collapse} th{background:var(--yellow);color:#020617;text-align:left;padding:13px} td{padding:13px;border-top:1px solid var(--border);background:rgba(2,6,23,.42)} .notice{border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.1)} .confirm-box{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.1)} .confirm-box.locked{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.1)} .progress{height:12px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden} .progress span{display:block;height:100%;background:var(--yellow)}
-.knockout-tabs{display:flex;gap:9px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:thin}.knockout-tab{flex:0 0 auto;border:1px solid var(--border);background:rgba(2,6,23,.72);color:#fff;border-radius:14px;padding:10px 13px;font-weight:900;cursor:pointer}.knockout-tab.active{background:var(--yellow);color:#020617;border-color:var(--yellow)}.knockout-tab small{display:block;font-weight:700;opacity:.75;margin-top:3px}.bracket-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 14px}.bracket-heading h3{margin:0}.team-name{display:flex;align-items:center;justify-content:space-between;gap:10px}.team-name span:last-child{opacity:.7;font-size:13px}.advance-note{margin:12px 0 0;font-size:13px;color:rgba(255,255,255,.62)}.waiting{border:1px dashed rgba(255,255,255,.24);border-radius:14px;padding:12px;color:rgba(255,255,255,.62);background:rgba(2,6,23,.35)}.champion-card{text-align:center;background:linear-gradient(135deg,rgba(250,204,21,.22),rgba(2,6,23,.75));border-color:rgba(250,204,21,.52)}.champion-name{font-size:clamp(30px,6vw,58px);font-weight:1000;color:#facc15;margin:8px 0}.bracket-warning{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.11)}
+.knockout-tabs{display:flex;gap:9px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:thin}.knockout-tab{flex:0 0 auto;border:1px solid var(--border);background:rgba(2,6,23,.72);color:#fff;border-radius:14px;padding:10px 13px;font-weight:900;cursor:pointer}.knockout-tab.active{background:var(--yellow);color:#020617;border-color:var(--yellow)}.knockout-tab small{display:block;font-weight:700;opacity:.75;margin-top:3px}.bracket-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 14px}.bracket-heading h3{margin:0}.team-name{display:flex;align-items:center;justify-content:space-between;gap:10px}.team-name span:last-child{opacity:.7;font-size:13px}.advance-note{margin:12px 0 0;font-size:13px;color:rgba(255,255,255,.62)}.waiting{border:1px dashed rgba(255,255,255,.24);border-radius:14px;padding:12px;color:rgba(255,255,255,.62);background:rgba(2,6,23,.35)}.champion-card{text-align:center;background:linear-gradient(135deg,rgba(250,204,21,.22),rgba(2,6,23,.75));border-color:rgba(250,204,21,.52)}.champion-name{font-size:clamp(30px,6vw,58px);font-weight:1000;color:#facc15;margin:8px 0}.bracket-warning{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.11)}.build-badge{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;padding:6px 10px;border-radius:999px;border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.10);color:#bbf7d0;font-size:12px;font-weight:900}
 @media(max-width:850px){header,.two{grid-template-columns:1fr;display:grid} nav{width:100%} .nav-btn{flex:1} .cards{grid-template-columns:1fr} .cup-wrap{width:210px;height:210px}}
 </style>
 </head>
@@ -226,18 +229,23 @@ function knockoutRoundKey(m){
 // porque la Ronda de 32 no alimenta los octavos como 73-74, 75-76, etc.
 // Cada partido destino indica exactamente de cuáles partidos recibe sus equipos.
 const BRACKET_PARENT_IDS = {
-  89:  [74, 77],
-  90:  [73, 75],
-  91:  [76, 78],
-  92:  [79, 80],
-  93:  [83, 84],
-  94:  [81, 82],
-  95:  [86, 88],
-  96:  [85, 87],
+  // OCTAVOS: cruces oficiales definidos en la hoja Partidos
+  89:  [74, 77], // Ganador 74 vs Ganador 77
+  90:  [73, 75], // Ganador 73 vs Ganador 75
+  91:  [76, 78], // Ganador 76 vs Ganador 78
+  92:  [79, 80], // Ganador 79 vs Ganador 80
+  93:  [83, 84], // Ganador 83 vs Ganador 84
+  94:  [81, 82], // Ganador 81 vs Ganador 82
+  95:  [86, 88], // Ganador 86 vs Ganador 88
+  96:  [85, 87], // Ganador 85 vs Ganador 87
+
+  // CUARTOS
   97:  [89, 90],
   98:  [93, 94],
   99:  [91, 92],
   100: [95, 96],
+
+  // SEMIFINALES Y FINAL
   101: [97, 98],
   102: [99, 100],
   103: [101, 102]
@@ -841,7 +849,7 @@ function renderKnockoutMatches(activeId,preds,conf,locked){
     : "";
 
   document.getElementById("matchesGrid").className = "";
-  document.getElementById("matchesGrid").innerHTML = `${warning}<div class="knockout-tabs">${tabs}</div><div class="bracket-heading"><h3>${roundInfo.label}</h3><span class="round">${ms.length} partidos</span></div><div class="grid cards">${cards || '<div class="card"><p>No hay partidos configurados para esta ronda.</p></div>'}</div>${championHtml}`;
+  document.getElementById("matchesGrid").innerHTML = `${warning}<div class="build-badge">✓ Cruces oficiales v7 · 89=74/77 · 90=73/75</div><div class="knockout-tabs">${tabs}</div><div class="bracket-heading"><h3>${roundInfo.label}</h3><span class="round">${ms.length} partidos</span></div><div class="grid cards">${cards || '<div class="card"><p>No hay partidos configurados para esta ronda.</p></div>'}</div>${championHtml}`;
 }
 
 function renderMatches(){
